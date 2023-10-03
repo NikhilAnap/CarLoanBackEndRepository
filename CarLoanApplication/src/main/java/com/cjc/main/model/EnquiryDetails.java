@@ -1,9 +1,11 @@
 package com.cjc.main.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +25,7 @@ public class EnquiryDetails {
 	private long customerAadharno;
 	private String customerPanno;
 	private long customerMobileno;
+	@OneToOne(cascade = CascadeType.ALL)
+	private CustomerCibilDetails customerCibilDetails;
 
 }

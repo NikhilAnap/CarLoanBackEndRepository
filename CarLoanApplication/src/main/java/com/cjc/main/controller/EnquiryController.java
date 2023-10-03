@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cjc.main.model.CustomerCibilDetails;
 import com.cjc.main.model.EnquiryDetails;
 import com.cjc.main.service.EnquiryService;
 
@@ -68,16 +69,62 @@ public class EnquiryController {
 		return new ResponseEntity<String>("Enquiry Deleted!!!", HttpStatus.OK);
 
 	}
-	
-	@PutMapping("/check_cibil/{enquiryId}")
-	public ResponseEntity<String> checkCibilScore(@PathVariable int enquiryId,@RequestBody EnquiryDetails enquiryDetails ) {
-		
-		Random ramdom=new Random();
-		int cibilScore = ramdom.nextInt(600) + 300;
 
-		System.out.println(cibilScore);
-		
-		return null;
-		
+	@PutMapping("/check_cibil")
+	public ResponseEntity<String> checkCibilScore(@RequestBody EnquiryDetails enquiryDetails) {
+
+		int min = 600;
+		int max = 900;
+
+		int cibilScore = (int) (Math.random() * (max - min + 1) + min);
+
+		CustomerCibilDetails customerCibilDetails = new CustomerCibilDetails();
+
+		if (cibilScore < 700) {
+
+			customerCibilDetails.setCibilScore(cibilScore);
+			customerCibilDetails.setCibilStatus("CIBIL_BAD");
+
+			enquiryDetails.setCustomerCibilDetails(customerCibilDetails);
+
+			enquiryService.saveEnquiry(enquiryDetails);
+
+			return new ResponseEntity<String>("CIBIL_BAD", HttpStatus.OK);
+
+		} else if (cibilScore > 699 && cibilScore < 750) {
+
+			customerCibilDetails.setCibilScore(cibilScore);
+			customerCibilDetails.setCibilStatus("CIBIL_GOOD");
+
+			enquiryDetails.setCustomerCibilDetails(customerCibilDetails);
+
+			enquiryService.saveEnquiry(enquiryDetails);
+
+			return new ResponseEntity<String>("CIBIL_GOOD", HttpStatus.OK);
+
+		} else if (cibilScore > 749 && cibilScore < 800) {
+
+			customerCibilDetails.setCibilScore(cibilScore);
+			customerCibilDetails.setCibilStatus("CIBIL_BEST");
+
+			enquiryDetails.setCustomerCibilDetails(customerCibilDetails);
+
+			enquiryService.saveEnquiry(enquiryDetails);
+
+			return new ResponseEntity<String>("CIBIL_BEST", HttpStatus.OK);
+
+		} else {
+
+			customerCibilDetails.setCibilScore(cibilScore);
+			customerCibilDetails.setCibilStatus("CIBIL_EXCELLENT");
+
+			enquiryDetails.setCustomerCibilDetails(customerCibilDetails);
+
+			enquiryService.saveEnquiry(enquiryDetails);
+
+			return new ResponseEntity<String>("CIBIL_EXCELLENT", HttpStatus.OK);
+
+		}
+
 	}
 }
