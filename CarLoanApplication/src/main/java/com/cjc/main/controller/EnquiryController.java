@@ -1,5 +1,7 @@
 package com.cjc.main.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,5 +67,17 @@ public class EnquiryController {
 
 		return new ResponseEntity<String>("Enquiry Deleted!!!", HttpStatus.OK);
 
+	}
+	
+	@PutMapping("/check_cibil/{enquiryId}")
+	public ResponseEntity<String> checkCibilScore(@PathVariable int enquiryId,@RequestBody EnquiryDetails enquiryDetails ) {
+		
+		Random ramdom=new Random();
+		int cibilScore = ramdom.nextInt(600) + 300;
+
+		System.out.println(cibilScore);
+		
+		return null;
+		
 	}
 }
