@@ -19,7 +19,13 @@ public class EmployeeController {
 	
 	@PostMapping("/addEmployee")
 	public ResponseEntity<Employee> addEmployee(
-			@RequestPart(name="employeeJson",required = true) String EmployeeJ,
+			@RequestPart(name="employee",required = true) String Employee,
+			@RequestPart(name="permanentAddr",required = true) String permanentAddress,
+			@RequestPart(name="localAddr",required = true) String localAddress,
+			@RequestPart(name="bankDetails",required = true) String bankDetails,
+			
+			
+			
 			@RequestPart(name="prof",required = false) MultipartFile profImg,
 			@RequestPart(name="adhar") MultipartFile aadharDoc,
 			@RequestPart(name="pan") MultipartFile panDoc,
@@ -28,7 +34,7 @@ public class EmployeeController {
 
 			)
 	{
-		Employee empDb=employeeService.addEmployee(EmployeeJ,profImg,aadharDoc,panDoc,signDoc);
+		Employee empDb=employeeService.addEmployee(Employee,permanentAddress,localAddress,bankDetails,profImg,aadharDoc,panDoc,signDoc);
 		return new ResponseEntity<Employee>(empDb, HttpStatus.CREATED);
 		
 	}

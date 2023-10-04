@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.cjc.main.model.Customer;
+import com.cjc.main.model.CustomerBankDetails;
 import com.cjc.main.model.CustomerDocuments;
 import com.cjc.main.model.CustomerLocalAddress;
+import com.cjc.main.model.CustomerPermanentAddress;
 import com.cjc.main.model.EnquiryDetails;
 import com.cjc.main.repository.CustomerRepository;
 import com.cjc.main.service.CustomerService;
@@ -84,7 +86,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public void saveCustomer(String customerDetails, MultipartFile customerAadhar, MultipartFile customerPan,
+	public void saveCustomer(String customerProfile, String customerPaddr, String customerLaddr, String bankDetails, MultipartFile customerAadhar, MultipartFile customerPan,
 			MultipartFile customerProfilePhoto, MultipartFile customerSignature, MultipartFile customerSalaryslip,
 			MultipartFile customerDrivingLicense, MultipartFile customerBankStatement,
 			MultipartFile customerCarQuotation, MultipartFile customerForm16, MultipartFile customerITR) {
@@ -93,7 +95,16 @@ public class CustomerServiceImpl implements CustomerService {
 
 		try {
 
-			Customer customer = mapper.readValue(customerDetails, Customer.class);
+			Customer customer = mapper.readValue(customerProfile, Customer.class);
+			
+			CustomerPermanentAddress customerPermanentaddr=mapper.readValue(customerPaddr, CustomerPermanentAddress.class);
+			CustomerLocalAddress customerLocaladd = mapper.readValue(customerLaddr, CustomerLocalAddress.class);
+			
+			CustomerBankDetails customerbankdetaila = mapper.readValue(bankDetails, CustomerBankDetails.class);
+			
+			customer.setCustomerPermanentAddress(customerPermanentaddr);
+			customer.setCustomerLocalAddress(customerLocaladd);
+			customer.setCustomerBankDetails(customerbankdetaila);
 
 			CustomerDocuments customerDocuments = new CustomerDocuments();
 
@@ -107,7 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 			customerDocuments.setCustomerCarQuotation(customerCarQuotation.getBytes());
 			customerDocuments.setCustomerForm16(customerForm16.getBytes());
 			customerDocuments.setCustomerITR(customerITR.getBytes());
-
+			
 			customer.setCustomerDocuments(customerDocuments);
 
 			String username = generateUsername();

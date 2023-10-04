@@ -3,6 +3,7 @@ package com.cjc.main.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cjc.main.model.Customer;
 import com.cjc.main.service.CustomerService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -24,7 +26,11 @@ public class CustomerController {
 	CustomerService customerService;
 
 	@PostMapping("/save_customer")
-	public ResponseEntity<String> saveCustomer(@RequestPart(name = "details", required = false) String customerDetails,
+	public ResponseEntity<String> saveCustomer(
+			@RequestPart(name = "customerprofile", required = true) String customerProfile,
+			@RequestPart(name = "permanentadd", required = true) String customerPaddr,
+			@RequestPart(name = "localadd", required = true) String customerLaddr,
+			@RequestPart(name = "bankdetails", required = true) String bankDetails,			
 			@RequestPart(name = "aadhar", required = true) MultipartFile customerAadhar,
 			@RequestPart(name = "pan", required = false) MultipartFile customerPan,
 			@RequestPart(name = "profilePhoto", required = false) MultipartFile customerProfilePhoto,
@@ -36,7 +42,7 @@ public class CustomerController {
 			@RequestPart(name = "form16", required = false) MultipartFile customerForm16,
 			@RequestPart(name = "itr", required = false) MultipartFile customerITR) {
 
-		customerService.saveCustomer(customerDetails, customerAadhar, customerPan, customerProfilePhoto,
+		customerService.saveCustomer(customerProfile,customerPaddr,customerLaddr,bankDetails, customerAadhar, customerPan, customerProfilePhoto,
 				customerSignature, customerSalaryslip, customerDrivingLicense, customerBankStatement,
 				customerCarQuotation, customerForm16, customerITR);
 
@@ -64,7 +70,10 @@ public class CustomerController {
 
 	@PutMapping("/update_customer")
 	public ResponseEntity<String> updateCustomer(
-			@RequestPart(name = "details", required = true) String customerDetails,
+			@RequestPart(name = "customerprofile", required = true) String customerProfile,
+			@RequestPart(name = "permanentadd", required = true) String customerPaddr,
+			@RequestPart(name = "localadd", required = true) String customerLaddr,
+			@RequestPart(name = "bankdetails", required = true) String bankDetails,
 			@RequestPart(name = "aadhar", required = false) MultipartFile customerAadhar,
 			@RequestPart(name = "pan", required = false) MultipartFile customerPan,
 			@RequestPart(name = "profilePhoto", required = false) MultipartFile customerProfilePhoto,
@@ -76,7 +85,7 @@ public class CustomerController {
 			@RequestPart(name = "form16", required = false) MultipartFile customerForm16,
 			@RequestPart(name = "itr", required = false) MultipartFile customerITR) {
 
-		customerService.saveCustomer(customerDetails, customerAadhar, customerPan, customerProfilePhoto,
+		customerService.saveCustomer(customerProfile,customerPaddr,customerLaddr,bankDetails, customerAadhar, customerPan, customerProfilePhoto,
 				customerSignature, customerSalaryslip, customerDrivingLicense, customerBankStatement,
 				customerCarQuotation, customerForm16, customerITR);
 
