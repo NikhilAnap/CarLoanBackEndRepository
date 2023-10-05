@@ -45,9 +45,7 @@ public class CustomerController {
 		customerService.saveCustomer(customerProfile,customerPaddr,customerLaddr,bankDetails, customerAadhar, customerPan, customerProfilePhoto,
 				customerSignature, customerSalaryslip, customerDrivingLicense, customerBankStatement,
 				customerCarQuotation, customerForm16, customerITR);
-
 		return new ResponseEntity<String>("Customer Details Saved!!!", HttpStatus.OK);
-
 	}
 
 	@GetMapping("/getAll_customer")
@@ -90,14 +88,11 @@ public class CustomerController {
 				customerCarQuotation, customerForm16, customerITR);
 
 		return new ResponseEntity<String>("Customer Details Updated!!!", HttpStatus.OK);
-
 	}
 
 	@DeleteMapping("/delete_customer/{customerId}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable int customerId) {
-
 		customerService.deleteCustomer(customerId);
-
 		return new ResponseEntity<String>("Customer Details Deleted!!!", HttpStatus.OK);
 
 	}

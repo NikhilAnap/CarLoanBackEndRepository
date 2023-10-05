@@ -36,7 +36,6 @@ public class EmployeeController {
 	{
 		Employee empDb=employeeService.addEmployee(Employee,permanentAddress,localAddress,bankDetails,profImg,aadharDoc,panDoc,signDoc);
 		return new ResponseEntity<Employee>(empDb, HttpStatus.CREATED);
-		
 	}
 	@GetMapping("/viewAllEmployee")
 	public ResponseEntity<Iterable<Employee>> viewAllEmployee()
